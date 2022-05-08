@@ -7,23 +7,32 @@ import {
 } from '../utils/types/TouristsAndNacionalities'
 import { DatasetProcessor } from './datasetProcessor'
 
-export class TouristsAndNacionalitiesProcessor extends DatasetProcessor {
-  getCommonMinimumDate(actualCodes: string[]): string {
-    // TODO: Problema con 2021
-    const firstDatasetYear = Number(actualCodes[0].slice(0, 4))
-    const firstDatasetMonth = Number(actualCodes[0].slice(5))
+// TODO: meter el spread
 
-    const secondDatasetYear = Number(actualCodes[1].slice(0, 4))
-    const secondDatasetMonth = Number(actualCodes[1].slice(5))
+export class TouristsAndNacionalitiesProcessor extends DatasetProcessor {
+  getCommonMinimumDate(datasets: DatasetFormat[]): string {
+    const firstDatasetCode = datasets[0].categories
+      .find((category) => category.variable === 'Periodos')
+      ?.codes.find((code) => code.length > 4) as string
+
+    const secondDatasetCode = datasets[1].categories
+      .find((category) => category.variable === 'Periodos')
+      ?.codes.find((code) => code.length > 4) as string
+
+    const firstDatasetYear = Number(firstDatasetCode[0].slice(0, 4))
+    const firstDatasetMonth = Number(firstDatasetCode[0].slice(5))
+
+    const secondDatasetYear = Number(secondDatasetCode[1].slice(0, 4))
+    const secondDatasetMonth = Number(secondDatasetCode[1].slice(5))
 
     if (
       (firstDatasetYear === secondDatasetYear && firstDatasetMonth > secondDatasetMonth) ||
       firstDatasetYear > secondDatasetYear
     ) {
-      return actualCodes[1]
+      return firstDatasetCode
     }
 
-    return actualCodes[0]
+    return secondDatasetCode
   }
 
   processDatasets(
@@ -37,7 +46,7 @@ export class TouristsAndNacionalitiesProcessor extends DatasetProcessor {
 
     if (this.lastDataStored && this.lastDataStored.year === actualYear) {
       // If the new data belongs to the last saved year, the data for this year will be updated
-      storageDataProcessed = [this.lastDataStored]
+      storageDataProcessed = [this.lastDataStored as TouristsAndNacionalities]
     } else {
       // If the new data does not belong to the last saved year, new ones will be created
       storageDataProcessed = this.createNewStorage(datasets)

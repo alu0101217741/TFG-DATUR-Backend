@@ -31,7 +31,7 @@ export abstract class DatasetProcessor {
     // If datasets have been updated
     if (updatedDatasets) {
       // The lowest common date of the datasets is obtained
-      const commonMinimumDate = this.getCommonMinimumDate(actualCodes)
+      const commonMinimumDate = this.getCommonMinimumDate(datasets)
 
       // If the lowest common date is different from the last saved date, the data is processed
       if (this.lastDateStored != commonMinimumDate) {
@@ -87,7 +87,7 @@ export abstract class DatasetProcessor {
     return actualCodes
   }
 
-  abstract getCommonMinimumDate(actualCodes: string[]): string
+  abstract getCommonMinimumDate(datasets: DatasetFormat[]): string
 
   abstract processDatasets(datasets: DatasetFormat[], leastMinimunCommonState: string): Data[]
 
