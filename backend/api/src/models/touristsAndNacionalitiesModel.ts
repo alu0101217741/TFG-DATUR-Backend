@@ -58,13 +58,12 @@ const TouristsAndNacionalitiesSchema = new Schema<TouristsAndNacionalitiesInterf
     },
   },
   {
-    versionKey: false,
     timestamps: true,
   }
 )
 
 // Create the Model.
-export const TouristsAndNacionalities = model<TouristsAndNacionalitiesInterface>(
+export const TouristsAndNacionalitiesModel = model<TouristsAndNacionalitiesInterface>(
   'tourists_and_nacionalities',
   TouristsAndNacionalitiesSchema
 )

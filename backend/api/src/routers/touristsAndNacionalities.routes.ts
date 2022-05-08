@@ -4,19 +4,14 @@ import * as touristsAndNacionalitiesController from '../controllers/touristsAndN
 const router = Router()
 
 // TODO: MIRAR COMO METER PERMISOS O ALGO PARA QUE SOLO PUEDAN HACER EL POST DETERMINADAS PERSONAS
-router.post(
-  '/numberTouristsAndNacionalites',
-  touristsAndNacionalitiesController.postTouristsAndNacionalities
-)
-
 router.get(
   '/numberTouristsAndNacionalites',
   touristsAndNacionalitiesController.getTouristsAndNacionalities
 )
 
-router.patch(
-  '/numberTouristsAndNacionalites/:id',
-  touristsAndNacionalitiesController.patchTouristsAndNacionalities
+router.post(
+  '/numberTouristsAndNacionalites',
+  touristsAndNacionalitiesController.postTouristsAndNacionalities
 )
 
 router.put(

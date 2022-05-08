@@ -3,6 +3,7 @@ import cors from 'cors'
 import express from 'express'
 import morgan from 'morgan'
 import './db/mongoose'
+import averageStay from './routers/averageStay.routes'
 import defaultRouter from './routers/default.routes'
 import touristsAndNacionalites from './routers/touristsAndNacionalities.routes'
 
@@ -22,6 +23,7 @@ app.use(cors())
  * Routes available in the API.
  */
 app.use(touristsAndNacionalites)
+app.use(averageStay)
 app.use(defaultRouter)
 
 /**
@@ -30,3 +32,7 @@ app.use(defaultRouter)
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
 })
+
+// TODO: Mirar la página esa para el tema del CORS.
+// TODO: Mirar si meter también delete y patch.
+// TODO: Revisar el tema de que no todo el mundo pueda hacer post, pust, patch y delete.

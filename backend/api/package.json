@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc-watch --onSuccess \"node dist/src/index.js\"",
-    "test": "jest"
+    "start": "node ./dist/src/index.js",
+    "dev": "ts-node-dev ./src/index.ts",
+    "build": "tsc",
+    "test": "jest --verbose"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +17,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "mongoose": "^6.2.10",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "ts-node-dev": "^1.1.8"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
