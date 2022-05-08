@@ -1,9 +1,10 @@
-import { Document, model, Schema } from 'mongoose'
+import { model, Schema } from 'mongoose'
 
-interface TouristsAndNacionalitiesInterface extends Document {
+// Creates an interface representing a document in MongoDB.
+interface TouristsAndNacionalitiesInterface {
   year: number
   totalTourists: number
-  touristsByNacionalityAndTrimester: [
+  touristsByCountryAndTrimester: [
     {
       nationality: string
       firtTrimester: number
@@ -20,7 +21,8 @@ interface TouristsAndNacionalitiesInterface extends Document {
   ]
 }
 
-const TouristsAndNacionalitiesSchema = new Schema(
+//Create a Schema corresponding to the document interface.
+const TouristsAndNacionalitiesSchema = new Schema<TouristsAndNacionalitiesInterface>(
   {
     year: {
       type: Number,
@@ -61,6 +63,7 @@ const TouristsAndNacionalitiesSchema = new Schema(
   }
 )
 
+// Create the Model.
 export const TouristsAndNacionalities = model<TouristsAndNacionalitiesInterface>(
   'tourists_and_nacionalities',
   TouristsAndNacionalitiesSchema
