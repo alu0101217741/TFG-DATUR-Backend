@@ -5,10 +5,9 @@ import {
   StayByCanaryIslands,
   StayByResidencePlaces,
 } from '../utils/types/AverageStay'
+import { DatasetData } from '../utils/types/DatasetData'
 import { DatasetFormat } from '../utils/types/DatasetFormat'
 import { DatasetProcessor } from './datasetProcessor'
-
-// TODO: meter ajustes para incluir los países nórdicos (Dinamarca, Suecia, Noruega y Finlandia), y para incluir cada tipo de hotel.
 
 export class AverageStayProcessor extends DatasetProcessor {
   getCommonMinimumDate(datasets: DatasetFormat[]): string {
@@ -51,93 +50,8 @@ export class AverageStayProcessor extends DatasetProcessor {
     return storageDataProcessed
   }
 
-  /*
-  createNewStorage(datasets: DatasetFormat[]): AverageStay[] {
-    // Are obtained every year until the last one that has been processed
-    const periods = datasets[0].categories.find(
-      (category) => category.variable === 'Periodos'
-    )?.codes
-
-    if (!periods) {
-      throw new Error(`Codes of the first dataset not found for the periods variable`)
-    }
-
-    const years: number[] = []
-
-    for (const period of periods) {
-      if (period === this.lastDateStored) break
-      if (period.length < 4) continue
-      const year = Number(period)
-      years.push(year)
-    }
-
-    //  Are obtained every residence place
-    const residencePlaces = datasets[1].categories
-      .find((category) => category.variable === 'Países de residencia')
-      ?.labels.slice(1)
-
-    if (!residencePlaces) {
-      throw new Error(
-        `Residence places of the second dataset not found for the countries of residence variable`
-      )
-    }
-
-    //  Are obtained every islands
-    const islands = datasets[0].categories
-      .find((category) => category.variable === 'Islas de alojamiento')
-      ?.labels.slice(1)
-
-    if (!islands) {
-      throw new Error(
-        `Islands of the first dataset not found for the islands of accommodation variable`
-      )
-    }
-
-    // Are obtained every accommodations
-    const accommodations = ['Hotel', 'Apartahotel o villa turística', 'Otros establecimientos']
-
-    // The structure is created to store the processed data
-    const stayByResidencePlaces = residencePlaces.map((residencePlace) => {
-      return {
-        residencePlace: residencePlace,
-        averageStay: 0,
-      }
-    })
-
-    const stayByCanaryIslands = islands.map((island) => {
-      return {
-        island: island,
-        averageStay: 0,
-        residencePlaces: [...stayByResidencePlaces],
-      }
-    })
-
-    const stayByAccommodations = accommodations.map((accommodation) => {
-      return {
-        accommodation: accommodation,
-        averageStay: 0,
-        residencePlaces: [...stayByResidencePlaces],
-      }
-    })
-
-    return years.map((year) => {
-      return {
-        year: year,
-        averageStay: 0,
-        stayByResidencePlaces: [...stayByResidencePlaces],
-        stayByCanaryIslands: [...stayByCanaryIslands],
-        stayByAccommodations: [...stayByAccommodations],
-      }
-    })
-  }*/
-
   processFirstDataset(dataset: DatasetFormat): AverageStay[] {
-    // Codes used in the dataset, it indicates the allowed residence places in the processor
-    const allowedResidencePlaces = ['DE', 'ES', 'UK']
-
-    // Years that are not allowed to be processed
-    const notAllowedYears = ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017']
-
+    // The codes and labels of the places of residence are obtained
     const residencePlacesCodes = dataset.categories.find(
       (category) => category.variable === 'Lugares de residencia'
     )?.codes
@@ -152,6 +66,7 @@ export class AverageStayProcessor extends DatasetProcessor {
       )
     }
 
+    // The codes and labels of the islands are obtained
     const islandsCodes = dataset.categories.find(
       (category) => category.variable === 'Islas de alojamiento'
     )?.codes
@@ -164,17 +79,26 @@ export class AverageStayProcessor extends DatasetProcessor {
       throw new Error(`Islands of the first dataset not found for the residence countries variable`)
     }
 
+    // Codes used in the dataset, it indicates the allowed residence places in the processor
+    const individualResidencePlaces = ['DE', 'ES_XES70', 'UK']
+
+    // Years that are not allowed to be processed
+    const notAllowedYears = ['2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017']
+
+    // The dataset begins to process
     const storageDataProcessed: AverageStay[] = []
 
     for (const data of dataset.data) {
       if (data.dimCodes[2].length > 4 || notAllowedYears.includes(data.dimCodes[2])) continue
       if (data.dimCodes[2] === this.lastDateStored) break
 
+      if (isNaN(Number(data.Valor))) data.Valor = '0'
+
       // Get the object that is going to store the data that is being processed in this iteration
       const averageStay = storageDataProcessed.find((a) => a.year === Number(data.dimCodes[2]))
 
       if (!averageStay) {
-        // Equal to:  data.dimCodes[0] === 'T' && data.dimCodes[1] === 'ES70
+        // Equal to:  data.dimCodes[0] === 'T' && data.dimCodes[1] === 'ES70'
         // Average stay in the Canary Islands of a tourist of any nationality in a given year
         storageDataProcessed.push({
           year: Number(data.dimCodes[2]),
@@ -189,27 +113,13 @@ export class AverageStayProcessor extends DatasetProcessor {
         data.dimCodes[1] === 'ES70'
       ) {
         // Average stay in the Canary Islands of tourists by residence place
-        if (allowedResidencePlaces.includes(data.dimCodes[0])) {
-          const indexCode = residencePlacesCodes.indexOf(data.dimCodes[0])
-
-          averageStay.stayByResidencePlaces.push({
-            residencePlace: residencePlacesLabels[indexCode],
-            averageStay: Number(data.Valor),
-          })
-        } else if (data.dimCodes[0].slice(0, 2) !== 'ES' && data.dimCodes[0] !== 'ZZ') {
-          const otherResidencePlace = averageStay.stayByResidencePlaces.find(
-            (a) => a.residencePlace === 'Otros países'
-          )
-
-          if (!otherResidencePlace) {
-            averageStay.stayByResidencePlaces.push({
-              residencePlace: 'Otros países',
-              averageStay: Number(data.Valor),
-            })
-          } else {
-            otherResidencePlace.averageStay += Number(data.Valor)
-          }
-        }
+        this.processStayByCountries(
+          data,
+          averageStay,
+          individualResidencePlaces,
+          residencePlacesCodes,
+          residencePlacesLabels
+        )
       } else if (data.dimCodes[0] === 'T' && data.dimCodes[1] !== 'ES70') {
         // Average stay in the Canary Islands of tourists by island
 
@@ -226,36 +136,117 @@ export class AverageStayProcessor extends DatasetProcessor {
         data.dimCodes[1] !== 'ES70'
       ) {
         // Average stay on an island of tourists by residence place
-        const indexCode = islandsCodes.indexOf(data.dimCodes[1])
-        const stayByCanaryIslands = averageStay.stayByCanaryIslands.find(
-          (a) => a.island === islandsLabels[indexCode]
-        ) as StayByCanaryIslands
 
-        if (allowedResidencePlaces.includes(data.dimCodes[0])) {
-          const indexCode2 = residencePlacesCodes.indexOf(data.dimCodes[0])
-
-          stayByCanaryIslands.residencePlaces.push({
-            residencePlace: residencePlacesLabels[indexCode2],
-            averageStay: Number(data.Valor),
-          })
-        } else if (data.dimCodes[0].slice(0, 2) !== 'ES' && data.dimCodes[0] !== 'ZZ') {
-          const otherResidencePlace = stayByCanaryIslands.residencePlaces.find(
-            (a) => a.residencePlace === 'Otros países'
-          )
-
-          if (!otherResidencePlace) {
-            stayByCanaryIslands.residencePlaces.push({
-              residencePlace: 'Otros países',
-              averageStay: Number(data.Valor),
-            })
-          } else {
-            otherResidencePlace.averageStay += Number(data.Valor)
-          }
-        }
+        this.processStayByIslandAndResidencePlace(
+          data,
+          averageStay,
+          individualResidencePlaces,
+          islandsCodes,
+          islandsLabels,
+          residencePlacesCodes,
+          residencePlacesLabels
+        )
       }
     }
 
+    console.log(storageDataProcessed[3])
+
     return storageDataProcessed
+  }
+
+  processStayByCountries(
+    data: DatasetData,
+    averageStay: AverageStay,
+    individualResidencePlaces: string[],
+    residencePlacesCodes: string[],
+    residencePlacesLabels: string[]
+  ) {
+    let groupResidencePlaces = ''
+
+    if (individualResidencePlaces.includes(data.dimCodes[0])) {
+      const indexCode = residencePlacesCodes.indexOf(data.dimCodes[0])
+
+      averageStay.stayByResidencePlaces.push({
+        residencePlace: residencePlacesLabels[indexCode],
+        averageStay: Number(data.Valor),
+      })
+    } else if (
+      // Nordic countries
+      data.dimCodes[0] === 'FI' ||
+      data.dimCodes[0] === 'NO' ||
+      data.dimCodes[0] === 'SE' ||
+      data.dimCodes[0] === 'DK'
+    ) {
+      groupResidencePlaces = 'Países nórdicos'
+    } else if (data.dimCodes[0].slice(0, 2) !== 'ES' && data.dimCodes[0] !== 'ZZ') {
+      groupResidencePlaces = 'Otros países'
+    }
+
+    if (groupResidencePlaces) {
+      const otherResidencePlace = averageStay.stayByResidencePlaces.find(
+        (a) => a.residencePlace === groupResidencePlaces
+      )
+
+      if (!otherResidencePlace) {
+        averageStay.stayByResidencePlaces.push({
+          residencePlace: groupResidencePlaces,
+          averageStay: Number(data.Valor),
+        })
+      } else {
+        otherResidencePlace.averageStay += Number(data.Valor)
+      }
+    }
+  }
+
+  processStayByIslandAndResidencePlace(
+    data: DatasetData,
+    averageStay: AverageStay,
+    individualResidencePlaces: string[],
+    islandsCodes: string[],
+    islandsLabels: string[],
+    residencePlacesCodes: string[],
+    residencePlacesLabels: string[]
+  ) {
+    const indexCode = islandsCodes.indexOf(data.dimCodes[1])
+    const stayByCanaryIslands = averageStay.stayByCanaryIslands.find(
+      (a) => a.island === islandsLabels[indexCode]
+    ) as StayByCanaryIslands
+
+    let groupResidencePlaces = ''
+
+    if (individualResidencePlaces.includes(data.dimCodes[0])) {
+      const indexCode2 = residencePlacesCodes.indexOf(data.dimCodes[0])
+
+      stayByCanaryIslands.residencePlaces.push({
+        residencePlace: residencePlacesLabels[indexCode2],
+        averageStay: Number(data.Valor),
+      })
+    } else if (
+      // Nordic countries
+      data.dimCodes[0] === 'FI' ||
+      data.dimCodes[0] === 'NO' ||
+      data.dimCodes[0] === 'SE' ||
+      data.dimCodes[0] === 'DK'
+    ) {
+      groupResidencePlaces = 'Países nórdicos'
+    } else if (data.dimCodes[0].slice(0, 2) !== 'ES' && data.dimCodes[0] !== 'ZZ') {
+      groupResidencePlaces = 'Otros países'
+    }
+
+    if (groupResidencePlaces) {
+      const otherResidencePlace = stayByCanaryIslands.residencePlaces.find(
+        (a) => a.residencePlace === groupResidencePlaces
+      )
+
+      if (!otherResidencePlace) {
+        stayByCanaryIslands.residencePlaces.push({
+          residencePlace: groupResidencePlaces,
+          averageStay: Number(data.Valor),
+        })
+      } else {
+        otherResidencePlace.averageStay += Number(data.Valor)
+      }
+    }
   }
 
   processSecondDataset(dataset: DatasetFormat, storageDataProcessed: AverageStay[]) {
@@ -276,6 +267,8 @@ export class AverageStayProcessor extends DatasetProcessor {
     for (const data of dataset.data) {
       if (data.dimCodes[3].length > 4) continue
       if (data.dimCodes[3] === this.lastDateStored) break
+
+      if (isNaN(Number(data.Valor))) data.Valor = '0'
 
       // Get the object that is going to store the data that is being processed in this iteration
       const averageStay = storageDataProcessed.find(
@@ -333,29 +326,42 @@ export class AverageStayProcessor extends DatasetProcessor {
         (a) => a.residencePlace === 'Otros países'
       ) as StayByResidencePlaces
 
-      otherResidencePlace.averageStay = otherResidencePlace.averageStay / 13
+      otherResidencePlace.averageStay =
+        Math.round((otherResidencePlace.averageStay / 9 + Number.EPSILON) * 100) / 100
+
+      const nordicCountries = data.stayByResidencePlaces.find(
+        (a) => a.residencePlace === 'Países nórdicos'
+      ) as StayByResidencePlaces
+
+      nordicCountries.averageStay =
+        Math.round((nordicCountries.averageStay / 4 + Number.EPSILON) * 100) / 100
 
       for (const stayByCanaryIslands of data.stayByCanaryIslands) {
-        const stayByIsland = stayByCanaryIslands.residencePlaces.find(
+        const otherResidencePlaceByIsland = stayByCanaryIslands.residencePlaces.find(
           (a) => a.residencePlace === 'Otros países'
         ) as StayByResidencePlaces
 
-        stayByIsland.averageStay = stayByIsland.averageStay / 13
-      }
+        otherResidencePlaceByIsland.averageStay =
+          Math.round((otherResidencePlaceByIsland.averageStay / 9 + Number.EPSILON) * 100) / 100
 
-      for (const stayByAccommodations of data.stayByAccommodations) {
-        if (stayByAccommodations.accommodation === 'Hotel') {
-          stayByAccommodations.averageStay = stayByAccommodations.averageStay / 3
-          for (const residencePlaces of stayByAccommodations.residencePlaces) {
-            residencePlaces.averageStay = residencePlaces.averageStay / 3
-          }
-        }
+        const nordicCountriesByIsland = stayByCanaryIslands.residencePlaces.find(
+          (a) => a.residencePlace === 'Países nórdicos'
+        ) as StayByResidencePlaces
+
+        nordicCountriesByIsland.averageStay =
+          Math.round((nordicCountriesByIsland.averageStay / 4 + Number.EPSILON) * 100) / 100
       }
     }
   }
 
   getAccommodationTypes(accommodationCode: string) {
     switch (accommodationCode) {
+      case '1':
+        return 'Hotel de 5 estrellas y 5 GL'
+      case '2':
+        return 'Hotel de 4 estrellas'
+      case '3':
+        return 'Hotel de 1, 2, 3 estrellas'
       case '4':
         return 'Apartahotel o villa turística'
       case '5':
@@ -365,7 +371,7 @@ export class AverageStayProcessor extends DatasetProcessor {
       case '7':
         return 'Alojamiento privado'
       default:
-        return 'Hotel'
+        throw new Error(`Accommodation type not found for the code ${accommodationCode}`)
     }
   }
 
