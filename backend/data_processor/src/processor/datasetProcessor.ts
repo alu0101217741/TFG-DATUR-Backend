@@ -89,7 +89,7 @@ export abstract class DatasetProcessor {
 
   abstract getCommonMinimumDate(datasets: DatasetFormat[]): string
 
-  abstract processDatasets(datasets: DatasetFormat[], leastMinimunCommonState: string): Data[]
+  abstract processDatasets(datasets: DatasetFormat[], commonMinimumDate: string): Data[]
 
   abstract storedDataProcessed(dataProcessed: Data[]): void
 }

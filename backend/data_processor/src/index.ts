@@ -1,6 +1,6 @@
 import { CronJob } from 'cron'
-import { AverageStayProcessor } from './processor/averageStayProcessor'
-import { PackageIds } from './utils/types/packageIds'
+import { TouristSpendingProcessor } from './processor/touristSpendingProcessor'
+import { PackageIds } from './utils/packageIds'
 
 // TODO: mirar el tema de los logs
 
@@ -26,13 +26,20 @@ import { PackageIds } from './utils/types/packageIds'
 
 // AVERAGE STAYS
 // The processor is instantiated and the packet ids are passed to it
-const averageStaysProcessor = new AverageStayProcessor([
+/*const averageStaysProcessor = new AverageStayProcessor([
   PackageIds.AVERAGE_STAY_ACCORDING_RESIDENCE_PLACE_BY_ISLANDS_AND_PERIOD,
   PackageIds.AVERAGE_STAY_ACCORDING_ACCOMMODATION_TYPE_AND_RESIDENCE_PLACE,
+])*/
+
+// TOURIST SPENDING
+// The processor is instantiated and the packet ids are passed to it
+const touristSpendingProcessor = new TouristSpendingProcessor([
+  PackageIds.AVERAGE_SPENDING_WITH_BREAKDOWN,
+  PackageIds.TOTAL_SPENDING_WITH_BREAKDOWN,
 ])
 
 // The initial load of the database is performed
-averageStaysProcessor
+touristSpendingProcessor
   .execute()
   .then((response: string) => {
     console.log(response)
@@ -45,7 +52,7 @@ averageStaysProcessor
 const cronJob = new CronJob(
   '0 */1 * * * *',
   () => {
-    averageStaysProcessor
+    touristSpendingProcessor
       .execute()
       .then((response: string) => {
         console.log(response)

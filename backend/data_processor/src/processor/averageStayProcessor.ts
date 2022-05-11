@@ -33,8 +33,8 @@ export class AverageStayProcessor extends DatasetProcessor {
     return firstDatasetYear
   }
 
-  processDatasets(datasets: DatasetFormat[], leastMinimunCommonState: string): AverageStay[] {
-    console.log(leastMinimunCommonState) // TODO: quitar
+  processDatasets(datasets: DatasetFormat[], commonMinimumDate: string): AverageStay[] {
+    console.log(commonMinimumDate) // TODO: quitar
     // Storage to store the data to be processed
 
     // const storageDataProcessed = this.createNewStorage(datasets)
@@ -272,11 +272,17 @@ export class AverageStayProcessor extends DatasetProcessor {
       if (isNaN(Number(data.Valor))) data.Valor = '0'
 
       // Get the object that is going to store the data that is being processed in this iteration
-      const averageStay = storageDataProcessed.find(
-        (a) => a.year === Number(data.dimCodes[3])
-      ) as AverageStay
+      const averageStay = storageDataProcessed.find((a) => a.year === Number(data.dimCodes[3]))
 
-      if (data.dimCodes[0] !== '0' && data.dimCodes[1] === '0' && data.dimCodes[2] === 'ES70') {
+      if (!averageStay) {
+        throw new Error(
+          'The datasets are not aligned, the second dataset contains different years than the first'
+        )
+      } else if (
+        data.dimCodes[0] !== '0' &&
+        data.dimCodes[1] === '0' &&
+        data.dimCodes[2] === 'ES70'
+      ) {
         const accommodationType = this.getAccommodationTypes(data.dimCodes[0])
 
         const stayByAccommodations = averageStay.stayByAccommodations.find(

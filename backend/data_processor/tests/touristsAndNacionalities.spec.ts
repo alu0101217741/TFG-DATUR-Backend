@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { TouristsAndNacionalitiesProcessor } from '../src/processor/touristsAndNacionalitiesProcessor'
-import { PackageIds } from '../src/utils/types/packageIds'
+import { PackageIds } from '../src/utils/packageIds'
 import { ProcessorResponse } from '../src/utils/types/processorResponse'
 import { FAKE_FIRST_PACKAGE, FAKE_SECOND_PACKAGE } from './fixtures/packages'
 import { TOURISTS_BY_RESIDENCE_PLACE_AND_PERIODS } from './fixtures/touristByResidenceAndPeriods'
