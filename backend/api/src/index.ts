@@ -6,6 +6,7 @@ import './db/mongoose'
 import averageStay from './routers/averageStay.routes'
 import defaultRouter from './routers/default.routes'
 import touristsAndNacionalites from './routers/touristsAndNacionalities.routes'
+import touristSpending from './routers/touristSpending.routes'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -24,6 +25,7 @@ app.use(cors())
  */
 app.use(touristsAndNacionalites)
 app.use(averageStay)
+app.use(touristSpending)
 app.use(defaultRouter)
 
 /**
