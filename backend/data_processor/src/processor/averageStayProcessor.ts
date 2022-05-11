@@ -1,4 +1,5 @@
 import { postDocument } from '../utils/axios/post'
+import { DATABASE } from '../utils/config'
 import {
   AverageStay,
   StayByAccommodations,
@@ -377,7 +378,7 @@ export class AverageStayProcessor extends DatasetProcessor {
 
   async storedDataProcessed(dataProcessed: AverageStay[]) {
     for (const data of dataProcessed) {
-      await postDocument('http://localhost:3000/averageStay', data)
+      await postDocument(DATABASE + '/averageStay', data)
     }
   }
 }

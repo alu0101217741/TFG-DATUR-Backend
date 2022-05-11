@@ -1,5 +1,6 @@
 import { postDocument } from '../utils/axios/post'
 import { putDocument } from '../utils/axios/put'
+import { DATABASE } from '../utils/config'
 import { DatasetFormat } from '../utils/types/DatasetFormat'
 import {
   TouristsAndNacionalities,
@@ -213,12 +214,12 @@ export class TouristsAndNacionalitiesProcessor extends DatasetProcessor {
   async storedDataProcessed(dataProcessed: TouristsAndNacionalities[]) {
     if (this.lastDataStored && this.lastDataStored.year === dataProcessed[0].year) {
       await putDocument(
-        `http://localhost:3000/numberTouristsAndNacionalites?year=${dataProcessed[0].year}`,
+        DATABASE + `/numberTouristsAndNacionalites?year=${dataProcessed[0].year}`,
         dataProcessed[0]
       )
     } else {
       for (const data of dataProcessed) {
-        await postDocument('http://localhost:3000/numberTouristsAndNacionalites', data)
+        await postDocument(DATABASE + '/numberTouristsAndNacionalites', data)
       }
     }
   }
