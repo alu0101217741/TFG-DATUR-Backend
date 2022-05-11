@@ -1,5 +1,8 @@
+import { CronJob } from 'cron'
 import { AverageStayProcessor } from './processor/averageStayProcessor'
 import { PackageIds } from './utils/types/packageIds'
+
+// TODO: mirar el tema de los logs
 
 // const WEEK_TIME = '* 0 0 * * 1'
 
@@ -31,23 +34,29 @@ const averageStaysProcessor = new AverageStayProcessor([
 // The initial load of the database is performed
 averageStaysProcessor
   .execute()
-  .then(() => {
-    console.log('Initial load completed to average stays')
+  .then((response: string) => {
+    console.log(response)
   })
   .catch((err) => {
     console.log(err)
   })
 
 // The cron is executed
-//const cronJob = new CronJob(
-// '0 */10 * * * *',
-/*  () => {
-    const b = touristsAndNacionalitiesProcessor.execute()
-    console.log(b)
+const cronJob = new CronJob(
+  '0 */1 * * * *',
+  () => {
+    averageStaysProcessor
+      .execute()
+      .then((response: string) => {
+        console.log(response)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
   null,
   false,
   'Atlantic/Canary'
 )
 
-cronJob.start()*/
+cronJob.start()
