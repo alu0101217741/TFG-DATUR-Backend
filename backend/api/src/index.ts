@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import './db/mongoose'
 import averageStay from './routers/averageStay.routes'
 import defaultRouter from './routers/default.routes'
+import occupancyRateForecast from './routers/occupancyRateForecast.routes'
 import touristsAndNacionalites from './routers/touristsAndNacionalities.routes'
 import touristSpending from './routers/touristSpending.routes'
 
@@ -26,6 +27,7 @@ app.use(cors())
 app.use(touristsAndNacionalites)
 app.use(averageStay)
 app.use(touristSpending)
+app.use(occupancyRateForecast)
 app.use(defaultRouter)
 
 /**
