@@ -4,6 +4,7 @@ import express from 'express'
 import morgan from 'morgan'
 import './db/mongoose'
 import averageStay from './routers/averageStay.routes'
+import businessProgressExpectation from './routers/businessProgressExpectation.routes'
 import defaultRouter from './routers/default.routes'
 import occupancyRateForecast from './routers/occupancyRateForecast.routes'
 import touristsAndNacionalites from './routers/touristsAndNacionalities.routes'
@@ -28,6 +29,7 @@ app.use(touristsAndNacionalites)
 app.use(averageStay)
 app.use(touristSpending)
 app.use(occupancyRateForecast)
+app.use(businessProgressExpectation)
 app.use(defaultRouter)
 
 /**
