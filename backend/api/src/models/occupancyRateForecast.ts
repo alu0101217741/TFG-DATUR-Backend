@@ -9,7 +9,7 @@ interface OccupancyRateForecastInterface {
   }
   expectedOccupancyByMonth: [
     {
-      month: number
+      month: string
       occupancyRate: number
     }
   ]
@@ -19,7 +19,7 @@ interface OccupancyRateForecastInterface {
 const OccupancyRateForecastSchema = new Schema<OccupancyRateForecastInterface>({
   trimester: {
     type: String,
-    match: [/^\d{4}Q(1|2|3|4)$/, '{VALUE} is an invalid trimester'],
+    match: [/^\d{4}M(0(1|4|7)|10)$/, '{VALUE} is an invalid trimester'],
     unique: true,
     required: true,
   },
@@ -31,7 +31,7 @@ const OccupancyRateForecastSchema = new Schema<OccupancyRateForecastInterface>({
   expectedOccupancyByMonth: {
     type: [
       {
-        month: { type: Number, required: true },
+        month: { type: String, required: true },
         occupancyRate: { type: Number, required: true },
       },
     ],
