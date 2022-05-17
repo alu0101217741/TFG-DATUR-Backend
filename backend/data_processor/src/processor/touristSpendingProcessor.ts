@@ -17,7 +17,7 @@ export class TouristSpendingProcessor extends DatasetProcessor {
     const firstDatasetPeriod = firstDatasetCodes.find((code) => code.length === 6) as string
     const secondDatasetPeriod = secondDatasetCodes.find((code) => code.length === 6) as string
 
-    const firstDatasetYear = Number(firstDatasetPeriod.substring(5))
+    const firstDatasetYear = Number(firstDatasetPeriod.substring(5)) // TODO: arreglar esto
     const secondDatasetYear = Number(secondDatasetPeriod.substring(5))
 
     const firstDatasetTrimester = Number(firstDatasetPeriod.substring(5))

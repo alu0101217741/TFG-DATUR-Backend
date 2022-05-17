@@ -25,4 +25,12 @@ export const PackageIds = {
    */
   AVERAGE_SPENDING_WITH_BREAKDOWN: '19269d77-e347-49ef-ac3c-45f27c42a355',
   TOTAL_SPENDING_WITH_BREAKDOWN: '6339aad3-1a0b-4a98-a89e-95d4608aded7',
+
+  /**
+   * occupancyRateForecast
+   * https://datos.canarias.es/catalogos/general/dataset/expectativas-de-la-tendencia-del-grado-de-ocupacion-segun-categorias-de-los-establecimientos-po1
+   * https://datos.canarias.es/catalogos/general/dataset/grado-de-ocupacion-previsto-para-cada-mes1
+   */
+  EXPECTATIONS_OCCUPANCY_RATE_TREND: '8bb318e7-b4d6-4a52-b2c6-e2d145bd864f',
+  EXPECTED_OCCUPANCY_RATE: '84ea8776-db42-49ba-b09c-87ee748db1cc',
 }

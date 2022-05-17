@@ -1,5 +1,5 @@
 import { CronJob } from 'cron'
-import { TouristSpendingProcessor } from './processor/touristSpendingProcessor'
+import { OccupancyRateForecastProcessor } from './processor/occupancyRateForecastProcessor'
 import { PackageIds } from './utils/packageIds'
 
 // TODO: mirar el tema de los logs
@@ -33,13 +33,20 @@ import { PackageIds } from './utils/packageIds'
 
 // TOURIST SPENDING
 // The processor is instantiated and the packet ids are passed to it
-const touristSpendingProcessor = new TouristSpendingProcessor([
+/*const touristSpendingProcessor = new TouristSpendingProcessor([
   PackageIds.AVERAGE_SPENDING_WITH_BREAKDOWN,
   PackageIds.TOTAL_SPENDING_WITH_BREAKDOWN,
+])*/
+
+// OCCUPANCY RATE FORECAST
+// The processor is instantiated and the packet ids are passed to it
+const occupancyRateForecastProcessor = new OccupancyRateForecastProcessor([
+  PackageIds.EXPECTATIONS_OCCUPANCY_RATE_TREND,
+  PackageIds.EXPECTED_OCCUPANCY_RATE,
 ])
 
 // The initial load of the database is performed
-touristSpendingProcessor
+occupancyRateForecastProcessor
   .execute()
   .then((response: string) => {
     console.log(response)
@@ -52,7 +59,7 @@ touristSpendingProcessor
 const cronJob = new CronJob(
   '0 */1 * * * *',
   () => {
-    touristSpendingProcessor
+    occupancyRateForecastProcessor
       .execute()
       .then((response: string) => {
         console.log(response)
