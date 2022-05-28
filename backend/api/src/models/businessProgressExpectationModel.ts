@@ -26,7 +26,7 @@ interface BusinessProgressExpectationInterface {
 const BusinessProgressExpectationSchema = new Schema<BusinessProgressExpectationInterface>({
   trimester: {
     type: String,
-    match: [/^\d{4}Q(1|2|3|4)$/, '{VALUE} is an invalid trimester'],
+    match: [/^\d{4}M((0(1|4|7))|10)$/, '{VALUE} is an invalid trimester'],
     unique: true,
     required: true,
   },
