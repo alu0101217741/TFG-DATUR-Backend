@@ -1,5 +1,5 @@
 import { CronJob } from 'cron'
-import { OccupancyRateForecastProcessor } from './processor/occupancyRateForecastProcessor'
+import { BusinessProgressExpectationProcessor } from './processor/businessProgressExpectationProcessor'
 import { PackageIds } from './utils/packageIds'
 
 // TODO: mirar el tema de los logs
@@ -40,13 +40,31 @@ import { PackageIds } from './utils/packageIds'
 
 // OCCUPANCY RATE FORECAST
 // The processor is instantiated and the packet ids are passed to it
-const occupancyRateForecastProcessor = new OccupancyRateForecastProcessor([
+/*const occupancyRateForecastProcessor = new OccupancyRateForecastProcessor([
   PackageIds.EXPECTATIONS_OCCUPANCY_RATE_TREND,
   PackageIds.EXPECTED_OCCUPANCY_RATE,
+])*/
+
+// The initial load of the database is performed
+/*occupancyRateForecastProcessor
+  .execute()
+  .then((response: string) => {
+    console.log(response)
+  })
+  .catch((err) => {
+    console.log(err)
+  })*/
+
+// BUSINESS PROGRESS EXPECTATION
+// The processor is instantiated and the packet ids are passed to it
+const businessProgressExpectationProcessor = new BusinessProgressExpectationProcessor([
+  PackageIds.HOTEL_COFIDENCE,
+  PackageIds.BUSINESS_PROGRESS_TENDENCY,
+  PackageIds.MAIN_FACTORS_EXPECTATIONS,
 ])
 
 // The initial load of the database is performed
-occupancyRateForecastProcessor
+businessProgressExpectationProcessor
   .execute()
   .then((response: string) => {
     console.log(response)
@@ -59,7 +77,7 @@ occupancyRateForecastProcessor
 const cronJob = new CronJob(
   '0 */1 * * * *',
   () => {
-    occupancyRateForecastProcessor
+    businessProgressExpectationProcessor
       .execute()
       .then((response: string) => {
         console.log(response)

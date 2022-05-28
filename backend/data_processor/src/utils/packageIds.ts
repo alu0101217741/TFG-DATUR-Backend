@@ -1,3 +1,5 @@
+// TODO: cambiar los nombres, para que indiquen lo que obtengo de cada datasets
+
 export const PackageIds = {
   /***
    * touristAndNacionalities
@@ -33,4 +35,14 @@ export const PackageIds = {
    */
   EXPECTATIONS_OCCUPANCY_RATE_TREND: '8bb318e7-b4d6-4a52-b2c6-e2d145bd864f',
   EXPECTED_OCCUPANCY_RATE: '84ea8776-db42-49ba-b09c-87ee748db1cc',
+
+  /**
+   * businessProgressExpectation
+   * https://datos.canarias.es/catalogos/general/dataset/balance-de-situacion-balance-de-expectativas-e-indices-de-confianza-hotelera-por-islas-de-canar1
+   * https://datos.canarias.es/catalogos/general/dataset/expectativas-de-la-marcha-del-negocio-respecto-al-trimestre-anterior-segun-categorias-de-los-es1
+   * https://datos.canarias.es/catalogos/general/dataset/expectativas-de-los-principales-factores-de-la-marcha-del-negocio-respecto-a-otros-trimestres-s1
+   */
+  HOTEL_COFIDENCE: '4fc301dd-d3cc-489a-b7cc-d1ac9021af12',
+  BUSINESS_PROGRESS_TENDENCY: 'eef1bf10-02ad-41d9-84dc-34414aa7dfd2',
+  MAIN_FACTORS_EXPECTATIONS: '3912a9f5-a4c3-4bbc-a6ef-88d0a31d71c0',
 }
