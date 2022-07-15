@@ -14,7 +14,7 @@ interface TouristSpendingInterface {
   ]
   spendingByResidencePlace: [
     {
-      residencePlace: string
+      country: string
       averageSpending: number
       averageSpendingByDay: number
       concepts: [
@@ -62,7 +62,7 @@ const TouristSpendingSchema = new Schema<TouristSpendingInterface>({
   spendingByResidencePlace: {
     type: [
       {
-        residencePlace: { type: String, required: true },
+        country: { type: String, required: true },
         averageSpending: { type: Number, required: true },
         averageSpendingByDay: { type: Number, required: true },
         concepts: {

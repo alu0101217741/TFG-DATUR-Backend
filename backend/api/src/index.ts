@@ -42,3 +42,4 @@ app.listen(port, () => {
 // TODO: Mirar la página esa para el tema del CORS.
 // TODO: Mirar si meter también delete y patch.
 // TODO: Revisar el tema de que no todo el mundo pueda hacer post, pust, patch y delete.
+// TODO: Meter lo de /api/v1
