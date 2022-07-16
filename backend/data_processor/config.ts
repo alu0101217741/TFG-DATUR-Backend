@@ -8,6 +8,8 @@ export const config = {
     collections: {
       touristSpendingCollectionName:
         process.env.TOURISTS_SPENDING_COLLECTION_NAME || 'tourists_spendings',
+      occupancyRateForecastCollectionName:
+        process.env.OCCCUPANCY_RATE_FORECAST_COLLECTION_NAME || 'occupancy_rate_forecasts',
     },
   },
   openDataInteractor: {

@@ -19,8 +19,6 @@ export class TouristSpendingHandler {
       TOTAL_SPENDING_WITH_BREAKDOWN,
     ])
 
-    if (touristSpendigDatasets.length === 0) console.log('hola')
-
     const response = (await this.touristSpendingProcessor.process(
       touristSpendigDatasets
     )) as TouristSpending[]
@@ -28,7 +26,9 @@ export class TouristSpendingHandler {
     if (response.length === 0) {
       console.log('Tourist spending database not modified')
     } else {
-      await this.databaseInteractor.saveData(response)
+      for (const touristSpending of response) {
+        await this.databaseInteractor.saveData(touristSpending)
+      }
 
       console.log('Tourist spending dataset has been modified and this data has been stored')
     }

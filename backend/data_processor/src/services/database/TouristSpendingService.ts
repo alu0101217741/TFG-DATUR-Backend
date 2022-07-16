@@ -27,9 +27,22 @@ export class TouristSpendingService {
     return this.client.close()
   }
 
-  async saveData(touristSpendingData: TouristSpending[]): Promise<void> {
+  async saveData(touristSpending: TouristSpending): Promise<void> {
+    const touristSpendingDataPrimitives = touristSpending.toPrimitives()
+
     await this.connect()
-    await this.collection.insertMany(touristSpendingData.map((data) => data.toPrimitives()))
+    const touristSpendingSaved = await this.collection.findOne({
+      trimester: touristSpendingDataPrimitives.trimester,
+    })
+
+    if (touristSpendingSaved) {
+      await this.collection.updateOne(
+        { trimester: touristSpendingDataPrimitives.trimester },
+        { $set: touristSpendingDataPrimitives }
+      )
+    } else {
+      await this.collection.insertOne(touristSpendingDataPrimitives)
+    }
     await this.close()
   }
 }
