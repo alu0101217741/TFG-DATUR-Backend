@@ -9,23 +9,18 @@ export type TouristStayPrimitives = ReturnType<TouristStay['toPrimitives']>
 
 export class TouristStay {
   static fromPrimitives(touristStayPrimitives: TouristStayPrimitives) {
-    const stayByResidencePlaces = touristStayPrimitives.stayByResidencePlaces
-      ? touristStayPrimitives.stayByResidencePlaces.map((residencePlaceStayPrimitives) =>
-          ResidencePlaceStay.fromPrimitives(residencePlaceStayPrimitives)
-        )
-      : undefined
+    const stayByResidencePlaces = touristStayPrimitives.stayByResidencePlaces.map(
+      (residencePlaceStayPrimitives) =>
+        ResidencePlaceStay.fromPrimitives(residencePlaceStayPrimitives)
+    )
 
-    const stayByIsland = touristStayPrimitives.stayByIsland
-      ? touristStayPrimitives.stayByIsland.map((islandStayPrimitives) =>
-          IslandStay.fromPrimitives(islandStayPrimitives)
-        )
-      : undefined
+    const stayByIsland = touristStayPrimitives.stayByIsland.map((islandStayPrimitives) =>
+      IslandStay.fromPrimitives(islandStayPrimitives)
+    )
 
-    const stayByAccommodations = touristStayPrimitives.stayByAccommodations
-      ? touristStayPrimitives.stayByAccommodations.map((accommodationStayPrimitives) =>
-          AccommodationStay.fromPrimitives(accommodationStayPrimitives)
-        )
-      : undefined
+    const stayByAccommodations = touristStayPrimitives.stayByAccommodations.map(
+      (accommodationStayPrimitives) => AccommodationStay.fromPrimitives(accommodationStayPrimitives)
+    )
 
     return new TouristStay(
       touristStayPrimitives.year,
@@ -39,9 +34,9 @@ export class TouristStay {
   constructor(
     private year: number,
     private averageStay: number,
-    private stayByResidencePlaces?: ResidencePlaceStay[],
-    private stayByIsland?: IslandStay[],
-    private stayByAccommodations?: AccommodationStay[]
+    private stayByResidencePlaces: ResidencePlaceStay[],
+    private stayByIsland: IslandStay[],
+    private stayByAccommodations: AccommodationStay[]
   ) {}
 
   getYear() {
@@ -116,15 +111,13 @@ export class TouristStay {
     return {
       year: this.year,
       averageStay: this.averageStay,
-      stayByResidencePlaces: this.stayByResidencePlaces
-        ? this.stayByResidencePlaces.map((residencePlaceStay) => residencePlaceStay.toPrimitives())
-        : undefined,
-      stayByIsland: this.stayByIsland
-        ? this.stayByIsland.map((islandStay) => islandStay.toPrimitives())
-        : undefined,
-      stayByAccommodations: this.stayByAccommodations
-        ? this.stayByAccommodations.map((accommodationStay) => accommodationStay.toPrimitives())
-        : undefined,
+      stayByResidencePlaces: this.stayByResidencePlaces.map((residencePlaceStay) =>
+        residencePlaceStay.toPrimitives()
+      ),
+      stayByIsland: this.stayByIsland.map((islandStay) => islandStay.toPrimitives()),
+      stayByAccommodations: this.stayByAccommodations.map((accommodationStay) =>
+        accommodationStay.toPrimitives()
+      ),
     }
   }
 }

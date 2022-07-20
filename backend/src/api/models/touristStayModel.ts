@@ -10,11 +10,11 @@ interface TouristStayInterface {
       averageStay: number
     }
   ]
-  stayByCanaryIslands: [
+  stayByIsland: [
     {
       island: string
       averageStay: number
-      residencePlaces: [
+      islandStayByResidencePlaces: [
         {
           residencePlace: string
           averageStay: number
@@ -26,7 +26,7 @@ interface TouristStayInterface {
     {
       accommodation: string
       averageStay: number
-      residencePlaces: [
+      accommodationStayByResidencePlace: [
         {
           residencePlace: string
           averageStay: number
@@ -58,12 +58,12 @@ const TouristStaySchema = new Schema<TouristStayInterface>(
       required: true,
       default: undefined,
     },
-    stayByCanaryIslands: {
+    stayByIsland: {
       type: [
         {
           island: { type: String, required: true },
           averageStay: { type: Number, required: true },
-          residencePlaces: [
+          islandStayByResidencePlaces: [
             {
               residencePlace: { type: String, required: true },
               averageStay: { type: Number, required: true },
@@ -81,7 +81,7 @@ const TouristStaySchema = new Schema<TouristStayInterface>(
           averageStay: { type: Number, required: true },
           residencePlaces: [
             {
-              residencePlace: { type: String, required: true },
+              accommodationStayByResidencePlace: { type: String, required: true },
               averageStay: { type: Number, required: true },
             },
           ],

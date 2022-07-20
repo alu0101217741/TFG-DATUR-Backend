@@ -18,9 +18,6 @@ export class TouristStayProcessor extends DatasetProcessor {
     const firstDatasetYear = firstDatasetCodes.find((code) => code.length === 4) as string
     const secondDatasetYear = secondDatasetCodes.find((code) => code.length === 4) as string
 
-    console.log('firstDatasetYear: ', firstDatasetYear)
-    console.log('secondDatasetYear: ', secondDatasetYear)
-
     if (Number(firstDatasetYear) < Number(secondDatasetYear)) return firstDatasetYear
 
     return secondDatasetYear
@@ -65,9 +62,9 @@ export class TouristStayProcessor extends DatasetProcessor {
           TouristStay.fromPrimitives({
             year: Number(data.categoryCodes[2]),
             averageStay: Number(data.dataValue),
-            stayByResidencePlaces: undefined,
-            stayByIsland: undefined,
-            stayByAccommodations: undefined,
+            stayByResidencePlaces: [],
+            stayByIsland: [],
+            stayByAccommodations: [],
           })
         )
       } else if (
