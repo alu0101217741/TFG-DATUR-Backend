@@ -8,9 +8,4 @@ router.get(
   businessProgressExpectationController.getBusinessProgressExpectation
 )
 
-router.post(
-  '/businessProgressExpectation',
-  businessProgressExpectationController.postBusinessProgressExpectation
-)
-
 export default router

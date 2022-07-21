@@ -8,6 +8,4 @@ router.get(
   occupancyRateForecastController.getOccupancyRateForecast
 )
 
-router.post('/occupancyRateForecast', occupancyRateForecastController.postOccupancyRateForecast)
-
 export default router
