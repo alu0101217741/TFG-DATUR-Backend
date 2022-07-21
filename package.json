@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "tsc",
-    "startDatabase": "node ./dist/src/index.js",
+    "startDatabase": "tsc && node ./dist/api/index.js",
     "databaseDev": "ts-node ./src/api/index.ts",
-    "startProcessor": "tsc && pm2 start dist/src/index.js -o out.log -e err.log",
-    "processorDev": "ts-node ./src/data-processor/app/index.ts",
+    "startProcessor": "tsc && pm2 start dist/data-processor/app/clock.js -o out.log -e err.log",
+    "processorDev": "ts-node ./src/data-processor/app/clock.ts",
     "build": "tsc",
     "test": "jest --verbose"
   },
