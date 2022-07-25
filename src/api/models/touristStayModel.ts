@@ -79,9 +79,9 @@ const TouristStaySchema = new Schema<TouristStayInterface>(
         {
           accommodation: { type: String, required: true },
           averageStay: { type: Number, required: true },
-          residencePlaces: [
+          accommodationStayByResidencePlace: [
             {
-              accommodationStayByResidencePlace: { type: String, required: true },
+              residencePlace: { type: String, required: true },
               averageStay: { type: Number, required: true },
             },
           ],

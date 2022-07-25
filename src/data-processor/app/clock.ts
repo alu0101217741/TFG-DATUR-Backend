@@ -2,7 +2,7 @@ import { CronJob } from 'cron'
 import { startDataProcessor } from './worker'
 
 const cronJob = new CronJob({
-  cronTime: '0 */59 * * * *',
+  cronTime: '0 */5 * * * *',
   onTick: async () => {
     await startDataProcessor()
   },
