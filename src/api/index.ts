@@ -1,4 +1,3 @@
-import bodyParser from 'body-parser'
 import cors from 'cors'
 import express from 'express'
 import morgan from 'morgan'
@@ -16,10 +15,9 @@ const port = process.env.PORT || 3000
 /**
  * Middlewares
  */
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-app.use(morgan('dev'))
+app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+app.use(morgan('dev'))
 app.use(cors())
 
 /**
