@@ -12,6 +12,7 @@ const businessProgressExpectation = new BusinessProgressExpectationHandler()
 const touristsNumber = new TouristsNumberHandler()
 
 export const startDataProcessor = async () => {
+  console.log('\n--------------------- DATA PROCESSOR -------------------- ')
   console.log('Starting...')
   await touristSpendingHandler.execute()
   await occupancyRateForecastHandler.execute()

@@ -1,18 +1,17 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
+import { config } from '../../config'
 import { Dataset } from '../../domain/containers/Dataset'
 import { axiosHandlingErrors } from '../../utils/axiosHandlingErrors'
 import { DatasetResponse } from './types/DatasetResponse'
 import { JsonMetadataResponse } from './types/JsonMetadataResponse'
 import { PackageFormat } from './types/PackageFormat'
 
-const OPEN_API_URL = 'https://datos.canarias.es/catalogos/general/api/action/package_show?id='
-
 export class OpenDataInteractor {
   async getData(dataIds: string[]): Promise<Dataset[]> {
     const datasets: Dataset[] = []
 
     for (const dataId of dataIds) {
-      const jsonResourceUrl = await this.getJsonResource(OPEN_API_URL + dataId)
+      const jsonResourceUrl = await this.getJsonResource(config.openDataInteractor.baseUrl + dataId)
 
       const dataset = await this.getDataset(jsonResourceUrl)
 

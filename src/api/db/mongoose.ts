@@ -5,4 +5,4 @@ dotenv.config()
 
 export const MONGO_URL = `${process.env.URI_DATABASE_CONNECTION}`
 
-mongoose.createConnection(MONGO_URL, { maxPoolSize: 2 })
+mongoose.createConnection(MONGO_URL)

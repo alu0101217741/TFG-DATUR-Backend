@@ -1,5 +1,5 @@
-import { TouristsNumberModel } from '../../api/models/touristsNumber'
-import { TouristsNumber } from '../domain/tourists-number/TouristsNumber'
+import { TouristsNumberModel } from '../../../api/models/touristsNumber'
+import { TouristsNumber } from '../../domain/tourists-number/TouristsNumber'
 
 export async function touristsNumberService(touristsNumber: TouristsNumber) {
   const touristsNumberPrimitives = touristsNumber.toPrimitives()

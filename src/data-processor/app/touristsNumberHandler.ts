@@ -1,7 +1,7 @@
 import { TouristsNumber } from '../domain/tourists-number/TouristsNumber'
 import { OpenDataInteractor } from '../infrastructure/open_data_interactor/OpenDataInteractor'
 import { TouristsNumberProcessor } from '../infrastructure/processors/touristsNumberProcessor'
-import { touristsNumberService } from '../services/TouristsNumberService'
+import { touristsNumberService } from '../services/database/TouristsNumberService'
 
 const FIRST_DATASET_ID = '0bd1385f-fbfb-49ce-b8aa-d8a428454ceb'
 const SECOND_DATASET_ID = '4373ada0-58e4-4f74-8c96-c36de97c8fbe'
