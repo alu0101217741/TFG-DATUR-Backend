@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "tsc",
-    "databaseProd": "tsc && pm2 start ./dist/api/index.js --name \"api-rest\" --time",
+    "databaseProd": "pm2 start ./dist/api/index.js --name \"api-rest\" --time",
     "databaseDev": "ts-node ./src/api/index.ts",
-    "processorProd": "tsc && pm2 start dist/data-processor/app/index.js --name \"data-processor\" --time -o out.log -e err.log",
+    "processorProd": "pm2 start dist/data-processor/app/index.js --name \"data-processor\" --time -o out.log -e err.log",
     "processorDev": "ts-node ./src/data-processor/app/index.ts",
     "build": "tsc",
     "test": "jest --verbose"
