@@ -1,5 +1,5 @@
 import { TouristStay } from '../domain/tourist-stay/TouristStay'
-import { OpenDataInteractor } from '../infrastructure/open_data_interactor/OpenDataInteractor'
+import { OpenDataInterface } from '../infrastructure/open_data_interface/OpenDataInterface'
 import { TouristStayProcessor } from '../infrastructure/processors/touristStayProcessor'
 import { touristStayService } from '../services/database/TouristStayService'
 
@@ -9,11 +9,11 @@ const SECOND_DATASET_ID = 'af15df23-3d19-4ebd-aefb-23ccf0501140'
 export class TouristStayHandler {
   private touristStayProcessor = new TouristStayProcessor()
 
-  private openDataInteractor = new OpenDataInteractor()
+  private OpenDataInterface = new OpenDataInterface()
 
   async execute() {
     try {
-      const touristSpendigDatasets = await this.openDataInteractor.getData([
+      const touristSpendigDatasets = await this.OpenDataInterface.getData([
         FIRST_DATASET_ID,
         SECOND_DATASET_ID,
       ])

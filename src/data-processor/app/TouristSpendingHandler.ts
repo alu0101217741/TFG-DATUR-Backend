@@ -1,5 +1,5 @@
 import { TouristSpending } from '../domain/tourist-spending/TouristSpending'
-import { OpenDataInteractor } from '../infrastructure/open_data_interactor/OpenDataInteractor'
+import { OpenDataInterface } from '../infrastructure/open_data_interface/OpenDataInterface'
 import { TouristSpendingProcessor } from '../infrastructure/processors/touristSpendingProcessor'
 import { touristSpendingService } from '../services/database/TouristSpendingService'
 
@@ -9,11 +9,11 @@ const SECOND_DATASET_ID = '6339aad3-1a0b-4a98-a89e-95d4608aded7'
 export class TouristSpendingHandler {
   private touristSpendingProcessor = new TouristSpendingProcessor()
 
-  private openDataInteractor = new OpenDataInteractor()
+  private OpenDataInterface = new OpenDataInterface()
 
   async execute() {
     try {
-      const touristSpendigDatasets = await this.openDataInteractor.getData([
+      const touristSpendigDatasets = await this.OpenDataInterface.getData([
         FIRST_DATASET_ID,
         SECOND_DATASET_ID,
       ])

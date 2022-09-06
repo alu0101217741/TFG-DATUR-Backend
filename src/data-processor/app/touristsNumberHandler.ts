@@ -1,5 +1,5 @@
 import { TouristsNumber } from '../domain/tourists-number/TouristsNumber'
-import { OpenDataInteractor } from '../infrastructure/open_data_interactor/OpenDataInteractor'
+import { OpenDataInterface } from '../infrastructure/open_data_interface/OpenDataInterface'
 import { TouristsNumberProcessor } from '../infrastructure/processors/touristsNumberProcessor'
 import { touristsNumberService } from '../services/database/TouristsNumberService'
 
@@ -9,11 +9,11 @@ const SECOND_DATASET_ID = '4373ada0-58e4-4f74-8c96-c36de97c8fbe'
 export class TouristsNumberHandler {
   private touristsNumberProcessor = new TouristsNumberProcessor()
 
-  private openDataInteractor = new OpenDataInteractor()
+  private OpenDataInterface = new OpenDataInterface()
 
   async execute() {
     try {
-      const touristsNumberDatasets = await this.openDataInteractor.getData([
+      const touristsNumberDatasets = await this.OpenDataInterface.getData([
         FIRST_DATASET_ID,
         SECOND_DATASET_ID,
       ])

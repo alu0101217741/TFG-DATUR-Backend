@@ -1,5 +1,5 @@
 import { OccupancyRateForecast } from '../domain/occupancy-rate-forecast/OccupancyRateForecast'
-import { OpenDataInteractor } from '../infrastructure/open_data_interactor/OpenDataInteractor'
+import { OpenDataInterface } from '../infrastructure/open_data_interface/OpenDataInterface'
 import { OccupancyRateForecastProcessor } from '../infrastructure/processors/occupancyRateForecastProcessor'
 import { occupancyRateForecastService } from '../services/database/OccupancyRateForecastService'
 
@@ -9,11 +9,11 @@ const SECOND_DATASET_ID = '84ea8776-db42-49ba-b09c-87ee748db1cc'
 export class OccupancyRateForecastHandler {
   private occupancyRateForecastProcessor = new OccupancyRateForecastProcessor()
 
-  private openDataInteractor = new OpenDataInteractor()
+  private OpenDataInterface = new OpenDataInterface()
 
   async execute() {
     try {
-      const occupancyRateForecastDatasets = await this.openDataInteractor.getData([
+      const occupancyRateForecastDatasets = await this.OpenDataInterface.getData([
         FIRST_DATASET_ID,
         SECOND_DATASET_ID,
       ])

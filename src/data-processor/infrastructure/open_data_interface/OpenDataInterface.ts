@@ -6,12 +6,12 @@ import { DatasetResponse } from './types/DatasetResponse'
 import { JsonMetadataResponse } from './types/JsonMetadataResponse'
 import { PackageFormat } from './types/PackageFormat'
 
-export class OpenDataInteractor {
+export class OpenDataInterface {
   async getData(dataIds: string[]): Promise<Dataset[]> {
     const datasets: Dataset[] = []
 
     for (const dataId of dataIds) {
-      const jsonResourceUrl = await this.getJsonResource(config.openDataInteractor.baseUrl + dataId)
+      const jsonResourceUrl = await this.getJsonResource(config.OpenDataInterface.baseUrl + dataId)
 
       const dataset = await this.getDataset(jsonResourceUrl)
 

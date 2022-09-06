@@ -1,5 +1,5 @@
 import { BusinessProgressExpectation } from '../domain/business-progress-expectation/BusinessProgressExpectation'
-import { OpenDataInteractor } from '../infrastructure/open_data_interactor/OpenDataInteractor'
+import { OpenDataInterface } from '../infrastructure/open_data_interface/OpenDataInterface'
 import { BusinessProgressExpectationProcessor } from '../infrastructure/processors/businessProgressExpectationProcessor'
 import { businessProgressExpectationService } from '../services/database/BusinessProgressExpectationService'
 
@@ -10,11 +10,11 @@ const THIRD_DATASET_ID = '3912a9f5-a4c3-4bbc-a6ef-88d0a31d71c0'
 export class BusinessProgressExpectationHandler {
   private businessProgressExpectationProcessor = new BusinessProgressExpectationProcessor()
 
-  private openDataInteractor = new OpenDataInteractor()
+  private OpenDataInterface = new OpenDataInterface()
 
   async execute() {
     try {
-      const businessProgressExpectationDatasets = await this.openDataInteractor.getData([
+      const businessProgressExpectationDatasets = await this.OpenDataInterface.getData([
         FIRST_DATASET_ID,
         SECOND_DATASET_ID,
         THIRD_DATASET_ID,
