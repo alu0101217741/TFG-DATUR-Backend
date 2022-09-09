@@ -16,9 +16,11 @@ El proyecto ha consistido en desarrollar una aplicación web y una aplicación A
 
 En este repositorio se encuentra el código que implementa el backend del proyecto formado por el sistema **Data Processor** y la **API REST**. En primer lugar, el sistema Data Processor es el encargado de obtener periódicamente los datasets del repositorio Open Data, procesarlos y almacenarlos en la base de datos con un formato adecuado. Por su parte, la API REST representa un punto de acceso a estos datos procesados, lo que permite a la aplicación web y móvil consumirlos y crear con ellos visualizaciones.
 
+Es posible consultar el repositorio de GitHub del [frontend web](https://github.com/alu0101217741/TFG-DATUR-Frontend-Web) y del [frontend móvil](https://github.com/alu0101217741/TFG-DATUR-Frontend-Movil).
+
 ### Datasets empleados
 
-A continuación, se indican los datasets del repositorio Canarias Datos Abiertos que se han empleado:
+A continuación, se indican los datasets del repositorio **Canarias Datos Abiertos** que se han empleado:
 
 - **Número de turistas**
 
